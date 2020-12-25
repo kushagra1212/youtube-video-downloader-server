@@ -21,34 +21,47 @@ router.post('/download',(req,res)=>{
 router.get('/download2', async(req,res)=>{
     const  {videoquality,videourl}=body;
     console.log(videourl)
-    console.log(body)
-    const videoid= await ytdl.getVideoID(videourl);
+ 
+    const videoid= ytdl.getVideoID(videourl);
 
-        const info=await ytdl.getInfo(videoid);
+        const info= await ytdl.getInfo(videoid);
+
+
 
  
     if(info)
     {
-        const videotitle=info.videoDetails.title;
+        
+       
 
-        const format=ytdl.chooseFormat(info.formats,{quality:videoquality});
+        const format= ytdl.chooseFormat(info.formats,{quality:videoquality});
   
 
- 
   
-    res.header('Content-Disposition', `attachment; filename=${videotitle}.mp4`);
- 
+   
+   
+    res.setHeader('Content-Disposition', 'attachment; filename="video.mp4"');
+ res.setHeader('Content-Length',format.contentLength);
 
 
     ytdl(videourl,{format:'mp4'}).pipe(res);
+    
+    
     }
   
 })
+
 router.get('/search/:item',async(req,res)=>{
    const x=req.params.item;
-    const result=await ytsr(x,{limit:12})
+    try{
+        const result=await ytsr(x,{limit:12})
+        res.json(result)
+    }catch(err){
+console.log(err)
+    }
+  
     
 
-res.json(result)
+
 })
 module.exports=router;
