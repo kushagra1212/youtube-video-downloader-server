@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const ytdl=require('ytdl-core');
 const fs=require('fs');
-
+const ytsr=require('ytsr')
 
 
 let body;
@@ -18,32 +18,37 @@ router.post('/download',(req,res)=>{
          
     
 })
-router.get('/download2', (req,res)=>{
+router.get('/download2', async(req,res)=>{
     const  {videoquality,videourl}=body;
+    console.log(videourl)
     console.log(body)
-    const videoid= ytdl.getVideoID(videourl);
-    try{
-        const info=ytdl.getInfo(videoid);
-    }
-    catch(err)
+    const videoid= await ytdl.getVideoID(videourl);
+
+        const info=await ytdl.getInfo(videoid);
+
+ 
+    if(info)
     {
-        console.log(err)
-    }
-    
-    const videotitle=info.videoDetails.title;
-    try{
+        const videotitle=info.videoDetails.title;
+
         const format=ytdl.chooseFormat(info.formats,{quality:videoquality});
-    }catch(err)
-    {
-        console.log(err,"this eeee")
-    }
   
-    res.header('Content-Disposition', 'attachment; filename="video.mp4"');
+
+ 
+  
+    res.header('Content-Disposition', `attachment; filename=${videotitle}.mp4`);
  
 
 
     ytdl(videourl,{format:'mp4'}).pipe(res);
+    }
   
 })
+router.get('/search/:item',async(req,res)=>{
+   const x=req.params.item;
+    const result=await ytsr(x,{limit:12})
+    
 
+res.json(result)
+})
 module.exports=router;
