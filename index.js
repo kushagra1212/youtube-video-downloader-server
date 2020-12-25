@@ -3,7 +3,7 @@ const app=express();
 const bodyparser=require('body-parser')
 const cors=require('cors')
 app.use(cors())
-const PORT=5000;
+const PORT=process.env.PORT||5000;
 
 const homerouter=require('./routers/homerouter')
 
