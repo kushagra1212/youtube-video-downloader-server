@@ -51,10 +51,11 @@ router.get('/download2', async(req,res)=>{
   
 })
 
-router.get('/search/:item',async(req,res)=>{
+router.get('/search/:item/:limit',async(req,res)=>{
    const x=req.params.item;
+   
     try{
-        const result=await ytsr(x,{limit:12})
+        const result=await ytsr(x,{limit:parseInt(req.params.limit)})
         res.json(result)
     }catch(err){
 console.log(err)
