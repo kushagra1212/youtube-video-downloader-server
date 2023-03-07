@@ -17,6 +17,6 @@
     "express": "^4.17.1",
     "miniget": "^4.2.2",
     "nodemon": "^2.0.6",
-    "ytdl-core": "^4.2.1"
+    "ytdl-core": "^4.11.2"
   }
 }

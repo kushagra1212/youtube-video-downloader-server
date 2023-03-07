@@ -17,7 +17,6 @@ router.post('/download', (req, res) => {
 });
 router.get('/download2', async (req, res) => {
   const { videoquality, videourl } = body;
-  console.log(videourl);
 
   const videoid = ytdl.getVideoID(videourl);
 
@@ -29,8 +28,11 @@ router.get('/download2', async (req, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename="video.mp4"');
     res.setHeader('Content-Length', format.contentLength);
 
-    ytdl(videourl, { format: 'mp4' }).pipe(res);
+    ytdl(videourl, { filter: (format) => format.container === 'mp4' }).pipe(
+      res
+    );
   } else {
+    console.log(info);
     res.json({ message: 'error', err: 'error', info: info });
   }
 });
@@ -39,8 +41,8 @@ router.get('/search/:item/:limit', async (req, res) => {
   const x = req.params.item;
 
   try {
-    //const result = await ytsr(x, { limit: parseInt(req.params.limit) });
-    const result = await ytsr(x, { limit: 10 });
+    const result = await ytsr(x, { limit: parseInt(req.params.limit) });
+
     res.json(result);
   } catch (err) {
     console.log(err);
