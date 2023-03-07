@@ -10,7 +10,6 @@ const homerouter = require('./routers/homerouter');
 console.log(process.env.ENVIRONMENT);
 app.use(
   cors({
-    credentials: true,
     cors: true,
     origin: process.env.FRONTEND_URL,
   })
