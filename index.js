@@ -17,7 +17,13 @@ app.use(
 app.use(express.json());
 app.use(bodyparser.json());
 
-app.use(express.urlencoded({ extended: true, origin: '*', limit: '50mb' }));
+app.use(
+  express.urlencoded({
+    extended: true,
+    origin: [`${process.env.FRONTEND_URL}`],
+    limit: '50mb',
+  })
+);
 
 app.use('/', homerouter);
 
