@@ -7,7 +7,7 @@ const ytsr = require('ytsr');
 let body;
 
 router.get('/', (req, res) => {
-  res.send('home');
+  res.json({ message: 'Welcome to the API' });
 });
 
 router.post('/download', (req, res) => {
@@ -30,6 +30,8 @@ router.get('/download2', async (req, res) => {
     res.setHeader('Content-Length', format.contentLength);
 
     ytdl(videourl, { format: 'mp4' }).pipe(res);
+  } else {
+    res.json({ message: 'error', err: 'error', info: info });
   }
 });
 
@@ -37,10 +39,12 @@ router.get('/search/:item/:limit', async (req, res) => {
   const x = req.params.item;
 
   try {
-    const result = await ytsr(x, { limit: parseInt(req.params.limit) });
+    //const result = await ytsr(x, { limit: parseInt(req.params.limit) });
+    const result = await ytsr(x, { limit: 10 });
     res.json(result);
   } catch (err) {
     console.log(err);
+    res.json({ message: 'error', err: err });
   }
 });
 module.exports = router;
