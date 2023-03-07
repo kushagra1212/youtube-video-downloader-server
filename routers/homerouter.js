@@ -10,14 +10,10 @@ router.get('/', (req, res) => {
   res.json({ message: 'Welcome to the API' });
 });
 
-router.post('/download', (req, res) => {
-  body = req.body.body;
-
-  res.json({ message: 'Downloading video' });
-});
-router.get('/download2', async (req, res) => {
-  const { videoquality, videourl } = body;
-
+router.get('/download/:videoquality/:videourl', async (req, res) => {
+  let { videoquality, videourl } = req.params;
+  videourl = decodeURIComponent(videourl);
+  console.log(videourl, videoquality);
   const videoid = ytdl.getVideoID(videourl);
 
   const info = await ytdl.getInfo(videoid);
