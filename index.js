@@ -11,18 +11,21 @@ console.log(process.env.ENVIRONMENT);
 app.use(
   cors({
     credentials: true,
-    origin:
-      process.env.ENVIRONMENT == 'DEV' ? '*' : `${process.env.FRONTEND_URL}`,
+    cors: true,
+    origin: process.env.FRONTEND_URL,
   })
 );
 app.use(
-  express.urlencoded({
-    extended: true,
-    origin:
-      process.env.ENVIRONMENT == 'DEV' ? '*' : `${process.env.FRONTEND_URL}`,
-  })
+  express.urlencoded({ extended: true, origin: process.env.FRONTEND_URL })
 );
 
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' https://apis.google.com"
+  );
+  return next();
+});
 app.use(express.json());
 app.use(bodyparser.json());
 
