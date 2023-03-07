@@ -2,19 +2,22 @@ const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
 const cors = require('cors');
-app.use(cors());
+
 const PORT = process.env.PORT || 5000;
 
 const homerouter = require('./routers/homerouter');
+app.use(
+  cors({
+    credentials: true,
+    origin: '*',
+  })
+);
 
 app.use(express.json());
 app.use(bodyparser.json());
 
-app.use(
-  bodyparser.urlencoded({
-    extended: true,
-  })
-);
+app.use(express.urlencoded({ extended: true, origin: '*', limit: '50mb' }));
+
 app.use('/', homerouter);
 
 app.listen(PORT, () => {
