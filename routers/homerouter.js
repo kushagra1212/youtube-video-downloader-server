@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ytdl = require('ytdl-core');
 const fs = require('fs');
-const ytsr = require('ytsr');
+const ytsr = require('../ytsr');
 
 let body;
 
