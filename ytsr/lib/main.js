@@ -6,7 +6,7 @@ const QS = require('querystring');
 const BASE_SEARCH_URL = 'https://www.youtube.com/results?';
 const BASE_API_URL = 'https://www.youtube.com/youtubei/v1/search?key=';
 
-const main = module.exports = async(searchString, options, rt = 3) => {
+const main = module.exports = async (searchString, options, rt = 3) => {
   if (rt === 0) throw new Error('Unable to find JSON!');
   // Set default values
   const opts = UTIL.checkArgs(searchString, options);
@@ -79,7 +79,7 @@ const main = module.exports = async(searchString, options, rt = 3) => {
 };
 main.version = require('../package.json').version;
 
-const parsePage2 = async(apiKey, token, context, opts) => {
+const parsePage2 = async (apiKey, token, context, opts) => {
   const json = await UTIL.doPost(BASE_API_URL + apiKey, { context, continuation: token }, opts.requestOptions);
 
   if (!Array.isArray(json.onResponseReceivedCommands)) {
@@ -92,7 +92,7 @@ const parsePage2 = async(apiKey, token, context, opts) => {
   );
 
   // Parse items
-  const parsedItems = rawItems.map(a => PARSE_ITEM(a)).filter(a => a).filter((_, index) => index < opts.limit);
+  const parsedItems = rawItems?.map(a => PARSE_ITEM(a)).filter(a => a).filter((_, index) => index < opts.limit);
 
   // Adjust tracker
   opts.limit -= parsedItems.length;
@@ -132,7 +132,7 @@ main.continueReq = async args => {
   return parsePage2(...args);
 };
 
-main.getFilters = async(searchString, options) => {
+main.getFilters = async (searchString, options) => {
   const opts = UTIL.checkArgs(searchString, options);
 
   const ref = BASE_SEARCH_URL + QS.encode(opts.query);

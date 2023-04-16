@@ -165,16 +165,16 @@ const parseVideo = (obj) => {
     // Author can be null for shows like whBqghP5Oow
     author: author
       ? {
-          name: author.text,
-          channelID: author.navigationEndpoint.browseEndpoint.browseId,
-          url: new URL(authorUrl, BASE_VIDEO_URL).toString(),
-          bestAvatar: prepImg(authorImg.thumbnail.thumbnails)[0] || null,
-          avatars: prepImg(authorImg.thumbnail.thumbnails),
-          ownerBadges: Array.isArray(obj.ownerBadges)
-            ? obj.ownerBadges.map((a) => a.metadataBadgeRenderer.tooltip)
-            : [],
-          verified: isOfficial || isVerified,
-        }
+        name: author.text,
+        channelID: author.navigationEndpoint.browseEndpoint.browseId,
+        url: new URL(authorUrl, BASE_VIDEO_URL).toString(),
+        bestAvatar: prepImg(authorImg.thumbnail.thumbnails)[0] || null,
+        avatars: prepImg(authorImg.thumbnail.thumbnails),
+        ownerBadges: Array.isArray(obj.ownerBadges)
+          ? obj.ownerBadges.map((a) => a.metadataBadgeRenderer.tooltip)
+          : [],
+        verified: isOfficial || isVerified,
+      }
       : null,
 
     description: UTIL.parseText(obj.descriptionSnippet),
@@ -225,21 +225,21 @@ const parsePlaylist = (obj) => ({
   firstVideo:
     Array.isArray(obj.videos) && obj.videos.length > 0
       ? {
-          id: obj.navigationEndpoint.watchEndpoint.videoId,
-          shortURL:
-            BASE_VIDEO_URL + obj.navigationEndpoint.watchEndpoint.videoId,
-          url: new URL(
-            obj.navigationEndpoint.commandMetadata.webCommandMetadata.url,
-            BASE_VIDEO_URL
-          ).toString(),
-          title: UTIL.parseText(obj.videos[0].childVideoRenderer.title, ''),
-          length: UTIL.parseText(
-            obj.videos[0].childVideoRenderer.lengthText,
-            ''
-          ),
-          thumbnails: prepImg(obj.thumbnails[0].thumbnails),
-          bestThumbnail: prepImg(obj.thumbnails[0].thumbnails)[0],
-        }
+        id: obj.navigationEndpoint.watchEndpoint.videoId,
+        shortURL:
+          BASE_VIDEO_URL + obj.navigationEndpoint.watchEndpoint.videoId,
+        url: new URL(
+          obj.navigationEndpoint.commandMetadata.webCommandMetadata.url,
+          BASE_VIDEO_URL
+        ).toString(),
+        title: UTIL.parseText(obj.videos[0].childVideoRenderer.title, ''),
+        length: UTIL.parseText(
+          obj.videos[0].childVideoRenderer.lengthText,
+          ''
+        ),
+        thumbnails: prepImg(obj.thumbnails[0].thumbnails),
+        bestThumbnail: prepImg(obj.thumbnails[0].thumbnails)[0],
+      }
       : null,
 
   // Some Playlists starting with OL only provide a simple string
@@ -307,12 +307,12 @@ const parseClarification = (obj) => ({
     !obj.secondarySource
       ? null
       : {
-          text: UTIL.parseText(obj.secondarySource, ''),
-          url: new URL(
-            obj.secondaryEndpoint.urlEndpoint.url,
-            BASE_VIDEO_URL
-          ).toString(),
-        },
+        text: UTIL.parseText(obj.secondarySource, ''),
+        url: new URL(
+          obj.secondaryEndpoint.urlEndpoint.url,
+          BASE_VIDEO_URL
+        ).toString(),
+      },
   ].filter((a) => a),
 });
 
@@ -442,8 +442,8 @@ const parseMovie = (obj) => {
 
 const parseShort = (obj) => {
   const playerHeader =
-    obj.navigationEndpoint.reelWatchEndpoint.overlay.reelPlayerOverlayRenderer
-      .reelPlayerHeaderSupportedRenderers.reelPlayerHeaderRenderer;
+    obj?.navigationEndpoint?.reelWatchEndpoint?.overlay?.reelPlayerOverlayRenderer
+      ?.reelPlayerHeaderSupportedRenderers?.reelPlayerHeaderRenderer;
   const channelNavEndpoint =
     playerHeader.channelTitleText.runs[0].navigationEndpoint;
   return {
