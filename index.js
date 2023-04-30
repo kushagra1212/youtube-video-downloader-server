@@ -10,14 +10,14 @@ const homerouter = require('./routers/homerouter');
 app.use(
   cors({
     cors: true,
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL_DEV,
   })
 );
 app.use(
-  express.urlencoded({ extended: true, origin: process.env.FRONTEND_URL })
+  express.urlencoded({ extended: true, origin: process.env.FRONTEND_URL_DEV })
 );
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
     "script-src 'self' https://apis.google.com"
@@ -30,5 +30,5 @@ app.use(bodyparser.json());
 app.use('/', homerouter);
 
 app.listen(PORT, () => {
-  console.log('server is up running');
+  console.log('server is up running ', PORT);
 });

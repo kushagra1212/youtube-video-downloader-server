@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ytdl = require('ytdl-core');
-const ytsr = require('../ytsr');
+const ytsr = require('ytsr');
 
 router.get('/', (req, res) => {
   res.json({ message: 'Welcome to the API' });
