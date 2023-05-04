@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
-
-router.get('/', (req, res) => {
+require('dotenv').config();
+router.get('/', (_req, res) => {
   res.json({ message: 'Welcome to the API' });
 });
 
@@ -32,8 +32,10 @@ router.get('/download/:videoquality/:videourl', async (req, res) => {
 router.get('/search/:item/:limit', async (req, res) => {
   const x = req.params.item;
 
+
+  const limit = req.params.limit;
   try {
-    const result = await ytsr(x, { limit: parseInt(req.params.limit) });
+    const result = await ytsr(x, { limit });
 
     res.json(result);
   } catch (err) {

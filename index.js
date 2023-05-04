@@ -6,18 +6,20 @@ const cors = require('cors');
 
 const PORT = process.env.PORT || 5000;
 
+
+
 const homerouter = require('./routers/homerouter');
 app.use(
   cors({
     cors: true,
-    origin: process.env.FRONTEND_URL_DEV,
+    origin: process.env.FRONTEND_URL,
   })
 );
 app.use(
-  express.urlencoded({ extended: true, origin: process.env.FRONTEND_URL_DEV })
+  express.urlencoded({ extended: true, origin: process.env.FRONTEND_URL })
 );
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
     "script-src 'self' https://apis.google.com"
